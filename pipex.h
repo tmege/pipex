@@ -6,7 +6,7 @@
 /*   By: tmege <tmege@student.42barcelona.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:00:34 by tmege             #+#    #+#             */
-/*   Updated: 2025/07/22 17:29:43 by tmege            ###   ########.fr       */
+/*   Updated: 2025/08/13 19:18:52 by tmege            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <string.h>
 # include "libft/includes/libft.h"
 
-void	error_exit(const char *msg);
+void	error_exit(const char *msg, char **to_free);
 char	**split_cmd(const char *cmd);
 void	free_split(char **strs);
 char	*get_env_path(char **envp);

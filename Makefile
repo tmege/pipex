@@ -2,7 +2,7 @@ NAME    = pipex
 SRCS    = pipex.c utils.c find_path.c
 OBJS    = $(SRCS:.c=.o)
 CC      = cc
-CFLAGS  = -Wall -Wextra -Werror
+CFLAGS  = -g -Wall -Wextra -Werror
 LIBFT   = libft/libft.a
 
 #colors#
