@@ -26,6 +26,7 @@ void	child1(int pipefd[2], char **argv, char **envp)
 	dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[0]);
 	close(pipefd[1]);
+	close(infile);
 	cmd_args = split_cmd(argv[2]);
 	if (!cmd_args)
 		error_exit("split_cmd", cmd_args);

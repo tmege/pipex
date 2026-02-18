@@ -1,8 +1,12 @@
 NAME    = pipex
-SRCS    = pipex.c utils.c find_path.c
-OBJS    = $(SRCS:.c=.o)
+SRC_DIR = src
+INC_DIR = inc
+OBJ_DIR = obj
+
+SRCS    = $(SRC_DIR)/pipex.c $(SRC_DIR)/utils.c $(SRC_DIR)/find_path.c
+OBJS    = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 CC      = cc
-CFLAGS  = -g -Wall -Wextra -Werror
+CFLAGS  = -Wall -Wextra -Werror -I $(INC_DIR) -I .
 LIBFT   = libft/libft.a
 
 #colors#
@@ -17,29 +21,30 @@ RESET   = \033[0m
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	@echo "$(CYAN)🔧 Compilation de la libft...$(RESET)"
-	@make -C libft
-	@echo "$(BLUE)🚀 Linking de $(NAME)...$(RESET)"
+$(NAME): $(OBJS) $(LIBFT)
+	@echo "$(BLUE)🚀 Linking $(NAME)...$(RESET)"
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
-	@echo "$(GREEN)✅ Compilation réussie !$(RESET)"
+	@echo "$(GREEN)✅ Build successful!$(RESET)"
 
-%.o: %.c Makefile pipex.h libft/includes/libft.h libft/includes/ft_printf.h libft/Makefile libft/srcs/ft_printf/Makefile
-	@echo "$(YELLOW)📦 Compilation de $<...$(RESET)"
+$(LIBFT):
+	@echo "$(CYAN)🔧 Compiling libft...$(RESET)"
+	@make -C libft
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DIR)/pipex.h Makefile
+	@mkdir -p $(OBJ_DIR)
+	@echo "$(YELLOW)📦 Compiling $<...$(RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@rm -f $(OBJS)
+	@rm -rf $(OBJ_DIR)
 	@make -C libft clean
-	@echo "$(CYAN)🧹 Fichiers objets nettoyés$(RESET)"
+	@echo "$(CYAN)🧹 Object files removed$(RESET)"
 
 fclean: clean
 	@rm -f $(NAME)
 	@make -C libft fclean
-	@echo "$(CYAN)🧹 Binaire supprimé$(RESET)"
-	@echo "$(BLUE)🚀 Bibliothèque libft nettoyée$(RESET)"
+	@echo "$(CYAN)🧹 Binary removed$(RESET)"
 
 re: fclean all
 
 .PHONY: all clean fclean re
-
